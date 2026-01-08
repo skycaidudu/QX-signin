@@ -91,10 +91,10 @@ if (isRequest) {
     const body = resp.body || "";
 
     // 简单判断：HTTP 状态 + body 里是否有“签到/成功/积分”等字样（不同地区/版本可能不同）
-    const okHint = /签到|签到了|成功|积分|已领取|已签到/i.test(body);
-    const resultLine = `HTTP ${status}${okHint ? "（疑似成功）" : ""}`;
-
-    notify("一点万象", "签到请求已发送", resultLine);
+   const hint = body
+    .replace(/\s+/g, " ")
+    .slice(0, 180); // 只截取前180字符
+  notify("一点万象", "签到返回", `HTTP ${status}\n${hint}`);
   } catch (e) {
     notify("一点万象", "签到失败", String(e));
   }
